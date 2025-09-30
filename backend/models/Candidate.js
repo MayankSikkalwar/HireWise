@@ -12,16 +12,13 @@ const CandidateSchema = new mongoose.Schema({
     job: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Job' },
     name: { type: String, default: 'Anonymous Candidate' },
     email: { type: String, default: 'No email found' },
+    summary: { type: String, default: 'No summary generated.'},
     // --- NEW FIELDS ---
     totalScore: { type: Number, default: 0 },
     scoreBreakdown: [scoreBreakdownSchema],
     shortlisted: { type: Boolean, default: false },
     // --- END NEW FIELDS ---
     resumeText: { type: String, required: true },
-    // We can now remove the old, simple score fields
-    // geminiScore: ...
-    // geminiSummary: ...
-    // geminiGaps: ...
 }, { timestamps: true });
 
 module.exports = mongoose.model('Candidate', CandidateSchema);

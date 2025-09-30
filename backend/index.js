@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 // We will connect our real routes here
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/jobs', require('./routes/jobs'));
+app.use('/api/candidates', require('./routes/candidates'));
 
 const PORT = process.env.PORT || 5000;
 

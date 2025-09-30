@@ -45,7 +45,8 @@ const CandidateDetailModal = ({ candidate, onClose }) => {
                 <div className="mb-8">
                     <h3 className="text-lg font-semibold mb-2 text-gray-200">Candidate's Summary</h3>
                     <p className="text-gray-300 text-sm leading-relaxed bg-gray-700/50 p-4 rounded-lg">
-                        {candidate.scoreBreakdown[0]?.justification || "No summary available."}
+                        {/* {candidate.scoreBreakdown[0]?.justification || "No summary available."} */}
+                        {candidate.summary || "No summary available."} 
                     </p>
                 </div>
 
