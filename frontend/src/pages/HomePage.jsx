@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
-import { FiCpu, FiAward, FiZap, FiCheckCircle } from 'react-icons/fi';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import Navbar from "../components/Navbar";
+import { FiCpu, FiAward, FiZap, FiCheckCircle } from "react-icons/fi";
 
 const AnimatedSection = ({ children }) => (
   <motion.div
@@ -18,7 +18,6 @@ const AnimatedSection = ({ children }) => (
 const HomePage = () => {
   return (
     <div className="w-full bg-gray-950 text-white overflow-x-hidden">
-
       {/* HERO */}
       <div className="relative min-h-screen flex flex-col items-center justify-center text-center px-6">
         <Navbar />
@@ -74,9 +73,15 @@ const HomePage = () => {
           </motion.div>
 
           <div className="mt-10 flex justify-center gap-6 text-sm text-gray-400">
-            <span className="flex items-center gap-2"><FiCheckCircle /> AI Powered</span>
-            <span className="flex items-center gap-2"><FiCheckCircle /> ATS Scoring</span>
-            <span className="flex items-center gap-2"><FiCheckCircle /> Auto Ranking</span>
+            <span className="flex items-center gap-2">
+              <FiCheckCircle /> AI Powered
+            </span>
+            <span className="flex items-center gap-2">
+              <FiCheckCircle /> ATS Scoring
+            </span>
+            <span className="flex items-center gap-2">
+              <FiCheckCircle /> Auto Ranking
+            </span>
           </div>
         </div>
       </div>
@@ -91,17 +96,23 @@ const HomePage = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl hover:shadow-xl transition">
               <FiCpu className="text-4xl text-purple-400 mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">AI Resume Intelligence</h3>
+              <h3 className="text-2xl font-semibold mb-2">
+                AI Resume Intelligence
+              </h3>
               <p className="text-gray-400">
-                Deep contextual resume analysis using LLaMA 3 to identify real skills and experience.
+                Deep contextual resume analysis using LLaMA 3 to identify real
+                skills and experience.
               </p>
             </div>
 
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl hover:shadow-xl transition">
               <FiAward className="text-4xl text-purple-400 mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">Smart Candidate Ranking</h3>
+              <h3 className="text-2xl font-semibold mb-2">
+                Smart Candidate Ranking
+              </h3>
               <p className="text-gray-400">
-                Automatically rank candidates with weighted scoring and detailed justification.
+                Automatically rank candidates with weighted scoring and detailed
+                justification.
               </p>
             </div>
 
@@ -109,43 +120,72 @@ const HomePage = () => {
               <FiZap className="text-4xl text-purple-400 mb-4" />
               <h3 className="text-2xl font-semibold mb-2">10x Faster Hiring</h3>
               <p className="text-gray-400">
-                Reduce manual screening and focus only on top-matched candidates.
+                Reduce manual screening and focus only on top-matched
+                candidates.
               </p>
             </div>
           </div>
         </AnimatedSection>
 
         {/* HOW IT WORKS */}
+        {/* --- How It Works Section (Premium Version) --- */}
         <AnimatedSection>
-          <div className="mt-28">
-            <h2 className="text-4xl font-bold text-center mb-16">
+          <div className="mt-32 relative">
+            {/* Gradient Background */}
+            <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 via-transparent to-blue-900/10 blur-2xl"></div>
+
+            <h2 className="relative text-4xl md:text-5xl font-bold text-center mb-16">
               From Job Post to Shortlist in Minutes
             </h2>
 
-            <div className="grid md:grid-cols-3 gap-10 text-center">
-              <div>
-                <div className="text-6xl font-bold text-purple-400 mb-4">1</div>
-                <h3 className="text-2xl font-semibold">Create Job</h3>
-                <p className="text-gray-400 mt-2">
-                  Define role requirements and scoring criteria.
-                </p>
+            <div className="relative max-w-6xl mx-auto">
+              {/* Connector Line */}
+              <div className="hidden md:block absolute top-16 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-500/20 via-purple-500/60 to-purple-500/20"></div>
+
+              <div className="grid md:grid-cols-3 gap-10">
+                {/* Step 1 */}
+                <div className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center hover:border-purple-500/40 hover:shadow-xl transition">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-purple-600/20 flex items-center justify-center text-3xl font-bold text-purple-400 shadow-lg">
+                    1
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-2">Create Job</h3>
+                  <p className="text-gray-400">
+                    Define role requirements and scoring criteria inside your
+                    private dashboard.
+                  </p>
+                </div>
+
+                {/* Step 2 */}
+                <div className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center hover:border-purple-500/40 hover:shadow-xl transition">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-purple-600/20 flex items-center justify-center text-3xl font-bold text-purple-400 shadow-lg">
+                    2
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-2">
+                    Upload Resumes
+                  </h3>
+                  <p className="text-gray-400">
+                    Upload candidate resumes in PDF or DOCX and let AI process
+                    them instantly.
+                  </p>
+                </div>
+
+                {/* Step 3 */}
+                <div className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center hover:border-purple-500/40 hover:shadow-xl transition">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-purple-600/20 flex items-center justify-center text-3xl font-bold text-purple-400 shadow-lg">
+                    3
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-2">AI Ranking</h3>
+                  <p className="text-gray-400">
+                    Instantly view ranked candidates with detailed scoring and
+                    strengths.
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <div className="text-6xl font-bold text-purple-400 mb-4">2</div>
-                <h3 className="text-2xl font-semibold">Upload Resumes</h3>
-                <p className="text-gray-400 mt-2">
-                  Bulk upload candidate resumes in seconds.
-                </p>
-              </div>
-
-              <div>
-                <div className="text-6xl font-bold text-purple-400 mb-4">3</div>
-                <h3 className="text-2xl font-semibold">AI Ranking</h3>
-                <p className="text-gray-400 mt-2">
-                  Get ranked candidates with detailed analysis.
-                </p>
-              </div>
+              {/* Trust Line */}
+              <p className="text-center text-sm text-gray-500 mt-14">
+                Used by modern teams to screen candidates 10x faster with AI
+              </p>
             </div>
           </div>
         </AnimatedSection>
