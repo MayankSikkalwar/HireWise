@@ -47,7 +47,7 @@ const HomePage = () => {
             transition={{ delay: 0.3 }}
             className="mt-6 text-lg md:text-xl text-gray-300"
           >
-            HireWise uses LLaMA 3 via Groq to analyze resumes, rank candidates,
+            HireWise uses Ai-powered resume analysis to analyze resumes, rank candidates,
             and help recruiters make faster, smarter hiring decisions.
           </motion.p>
 
