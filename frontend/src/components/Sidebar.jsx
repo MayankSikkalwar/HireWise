@@ -13,22 +13,34 @@ const Sidebar = ({ onAddNewJob }) => {
   };
 
   return (
-    <div className="w-20 bg-gray-800 p-4 flex flex-col items-center justify-between">
-      <div>
-        <div className="bg-purple-600 text-white w-12 h-12 rounded-lg flex items-center justify-center text-2xl font-bold mb-10">
-          HW
+    <div className="w-24 bg-slate-950/80 backdrop-blur-xl border-r border-white/10 p-4 flex flex-col items-center">
+      <div className="w-full flex flex-col items-center">
+        <div className="mb-10 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-[1px] shadow-[0_0_30px_rgba(139,92,246,0.35)]">
+          <div className="w-14 h-14 rounded-2xl bg-slate-950/90 flex items-center justify-center text-white text-lg font-bold tracking-tight">
+            HW
+          </div>
         </div>
-        <ul className="space-y-6">
-          <li className="p-3 bg-gray-700 rounded-lg cursor-pointer">
-            <FiGrid size={24} className="text-white" />
+
+        <ul className="w-full space-y-3">
+          <li className="p-3.5 rounded-xl cursor-pointer bg-violet-500/20 border border-violet-300/30 shadow-[0_0_24px_rgba(139,92,246,0.45)] transition-all duration-200">
+            <FiGrid size={22} className="text-violet-200 mx-auto" />
           </li>
-          <li onClick={onAddNewJob} className="p-3 hover:bg-gray-700 rounded-lg cursor-pointer transition-colors">
-            <FiPlusSquare size={24} className="text-gray-400" />
+          <li
+            onClick={onAddNewJob}
+            className="p-3.5 rounded-xl cursor-pointer border border-transparent hover:border-white/10 hover:bg-white/5 transition-all duration-200"
+          >
+            <FiPlusSquare size={22} className="text-slate-300 mx-auto" />
           </li>
         </ul>
       </div>
-      <div onClick={handleLogout} className="p-3 hover:bg-gray-700 rounded-lg cursor-pointer transition-colors">
-        <FiLogOut size={24} className="text-gray-400" />
+
+      <div className="w-full mt-auto pt-6 border-t border-white/10">
+        <div
+          onClick={handleLogout}
+          className="p-3.5 rounded-xl cursor-pointer border border-transparent hover:border-rose-300/20 hover:bg-rose-500/10 transition-all duration-200"
+        >
+          <FiLogOut size={22} className="text-slate-300 mx-auto" />
+        </div>
       </div>
     </div>
   );

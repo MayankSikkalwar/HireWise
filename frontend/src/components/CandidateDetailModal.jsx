@@ -1,85 +1,100 @@
 import React from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMail, FiPhone } from 'react-icons/fi';
+import { FiMail, FiX } from 'react-icons/fi';
 
 const CandidateDetailModal = ({ candidate, onClose }) => {
   // If no candidate is selected, render nothing.
   if (!candidate) return null;
 
+  const normalizedScore = Math.max(0, Math.min(Number(candidate.totalScore) || 0, 100));
+
   return (
     <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={onClose}
+      >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
-          onClick={onClose}
+          initial={{ y: 16, opacity: 0, scale: 0.98 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: 10, opacity: 0, scale: 0.98 }}
+          transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+          className="w-full max-w-5xl h-[90vh] flex flex-col rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_24px_90px_rgba(0,0,0,0.55)]"
+          onClick={(e) => e.stopPropagation()}
         >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl h-[90vh] flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Header */}
-            <div className="p-6 border-b border-gray-700 flex justify-between items-start">
-              <div>
-                <h2 className="text-3xl font-bold text-white">{candidate.name}</h2>
-                <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
-                    <span className="flex items-center"><FiMail className="mr-2 text-purple-400"/> {candidate.email}</span>
-                    {/* You can add more contact details here if extracted by the AI */}
-                </div>
-              </div>
-              <div className="text-right flex-shrink-0">
-                  <p className="text-sm text-gray-400">Overall Score</p>
-                  <p className="text-4xl font-bold text-purple-400">{candidate.totalScore}</p>
+          <div className="p-7 border-b border-white/10 flex justify-between items-start gap-4">
+            <div className="min-w-0">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Candidate Profile</p>
+              <h2 className="mt-2 text-3xl font-semibold text-white truncate">{candidate.name}</h2>
+              <div className="flex items-center mt-2 text-sm text-slate-300">
+                <FiMail className="mr-2 text-violet-300" />
+                <span className="truncate">{candidate.email}</span>
               </div>
             </div>
 
-            {/* Main Content */}
-            <div className="p-6 overflow-y-auto flex-1">
-                {/* Candidate Summary Section */}
-                <div className="mb-8">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-200">Candidate's Summary</h3>
-                    <p className="text-gray-300 text-sm leading-relaxed bg-gray-700/50 p-4 rounded-lg">
-                        {/* {candidate.scoreBreakdown[0]?.justification || "No summary available."} */}
-                        {candidate.summary || "No summary available."} 
-                    </p>
+            <div className="flex items-start gap-3 flex-shrink-0">
+              <div className="text-right w-48">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Overall Score</p>
+                <p className="text-4xl font-bold text-violet-300 mt-1">{candidate.totalScore}</p>
+                <div className="mt-3 h-2 w-full rounded-full bg-slate-800/90 overflow-hidden border border-white/10">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400"
+                    style={{ width: `${normalizedScore}%` }}
+                  />
                 </div>
+              </div>
 
-                {/* Score Breakdown Section */}
-                <div>
-                    <h3 className="text-lg font-semibold mb-4 text-gray-200">Score Breakdown</h3>
-                    <div className="space-y-4">
-                        {candidate.scoreBreakdown.map((item, index) => (
-                            <div key={index} className="bg-gray-700/50 p-4 rounded-lg">
-                                <div className="flex justify-between items-center mb-2">
-                                    <p className="font-bold text-gray-200">{item.criteria}</p>
-                                    <p className="text-sm font-semibold text-gray-400">Criteria Score: <span className="text-white font-bold text-base">{item.score}/10</span></p>
-                                </div>
-                                <p className="text-xs text-gray-400 mb-2">
-                                    <strong className="font-semibold text-gray-300">Justification:</strong> {item.justification}
-                                </p>
-                                <p className="text-sm font-bold text-purple-400 text-right">
-                                    Weighted Score: {item.weightedScore}
-                                </p>
-                            </div>
-                        ))}
+              <button
+                onClick={onClose}
+                className="rounded-lg border border-white/10 bg-white/5 p-2 text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
+              >
+                <FiX size={18} />
+              </button>
+            </div>
+          </div>
+
+          <div className="p-7 overflow-y-auto flex-1 [scrollbar-width:thin] [scrollbar-color:#64748b_transparent] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-500/50 [&::-webkit-scrollbar-track]:bg-transparent">
+            <div className="mb-8 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
+              <h3 className="text-lg font-semibold text-slate-100 mb-3">Candidate Summary</h3>
+              <p className="text-sm leading-relaxed text-slate-300">{candidate.summary || 'No summary available.'}</p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-slate-100 mb-4">Score Breakdown</h3>
+              <div className="space-y-3">
+                {(candidate.scoreBreakdown || []).map((item, index) => (
+                  <div key={index} className="rounded-xl border border-white/10 bg-slate-900/40 p-4">
+                    <div className="flex justify-between items-center gap-4">
+                      <p className="font-semibold text-slate-100">{item.criteria}</p>
+                      <p className="text-sm text-slate-300">
+                        Criteria Score: <span className="text-white font-bold">{item.score}/10</span>
+                      </p>
                     </div>
-                </div>
+                    <div className="my-3 h-px bg-white/10" />
+                    <p className="text-sm text-slate-300">
+                      <span className="font-medium text-slate-200">Justification:</span> {item.justification}
+                    </p>
+                    <p className="mt-3 text-sm font-semibold text-violet-300 text-right">Weighted Score: {item.weightedScore}</p>
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
 
-            {/* Footer */}
-            <div className="p-4 border-t border-gray-700 text-right">
-                <button onClick={onClose} className="px-5 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800">
-                  Close
-                </button>
-            </div>
-          </motion.div>
+          <div className="p-5 border-t border-white/10 text-right">
+            <button
+              onClick={onClose}
+              className="px-5 py-2.5 text-sm font-medium text-white rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 shadow-[0_8px_30px_rgba(139,92,246,0.4)] hover:opacity-95 transition-all"
+            >
+              Close
+            </button>
+          </div>
         </motion.div>
+      </motion.div>
     </AnimatePresence>
   );
 };
