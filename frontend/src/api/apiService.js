@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of axios with a base URL for our backend
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://hirewise-tqw4.onrender.com/api',
 });
 
 // Add a request interceptor to include the token in every request
