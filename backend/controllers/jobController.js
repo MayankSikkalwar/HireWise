@@ -1,4 +1,4 @@
-const Job = require('../models/job');
+const Job = require('../models/Job');
 const Candidate = require('../models/Candidate');
 const Groq = require('groq-sdk');
 const pdf = require('pdf-parse');
