@@ -13,6 +13,9 @@ const CandidateSchema = new mongoose.Schema({
     name: { type: String, default: 'Anonymous Candidate' },
     email: { type: String, default: 'No email found' },
     summary: { type: String, default: 'No summary generated.'},
+    matchPercentage: { type: Number },
+    missingSkills: [{ type: String }],
+    strengths: [{ type: String }],
     // --- NEW FIELDS ---
     totalScore: { type: Number, default: 0 },
     scoreBreakdown: [scoreBreakdownSchema],

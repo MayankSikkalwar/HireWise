@@ -52,7 +52,7 @@ exports.uploadResume = async (req, res) => {
         ).join('\n');
 
         const prompt = `
-Analyze the following resume against the job description and scoring criteria.
+Analyze the following resume by comparing job description, scoring criteria, and resume content.
 Return ONLY valid JSON.
 
 Job Title: ${job.title}
@@ -69,6 +69,9 @@ Return JSON:
 "name": "",
 "email": "",
 "summary": "",
+"matchPercentage": 0,
+"missingSkills": [],
+"strengths": [],
 "scoreBreakdown": [
 {
 "criteria": "",
@@ -89,10 +92,36 @@ Return JSON:
         });
 
         const text = completion.choices[0].message.content;
-        const jsonResponse = JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
+
+        // --- SAFE JSON EXTRACTION (NEW) ---
+        let cleanedText = text
+            .replace(/```json/g, '')
+            .replace(/```/g, '')
+            .trim();
+
+        const firstBrace = cleanedText.indexOf('{');
+        const lastBrace = cleanedText.lastIndexOf('}');
+
+        if (firstBrace !== -1 && lastBrace !== -1) {
+            cleanedText = cleanedText.substring(firstBrace, lastBrace + 1);
+        }
+
+        let jsonResponse;
+        try {
+            jsonResponse = JSON.parse(cleanedText);
+        } catch (e) {
+            console.error("AI returned invalid JSON:", cleanedText);
+            return res.status(500).json({ message: "AI response format error" });
+        }
+        // --- END SAFE JSON EXTRACTION ---
+
+        const matchPercentage = Math.min(100, Math.max(0, Number(jsonResponse.matchPercentage) || 0));
+        const missingSkills = Array.isArray(jsonResponse.missingSkills) ? jsonResponse.missingSkills : [];
+        const strengths = Array.isArray(jsonResponse.strengths) ? jsonResponse.strengths : [];
+        const scoreBreakdown = Array.isArray(jsonResponse.scoreBreakdown) ? jsonResponse.scoreBreakdown : [];
 
         let totalScore = 0;
-        const detailedBreakdown = jsonResponse.scoreBreakdown.map((item) => {
+        const detailedBreakdown = scoreBreakdown.map((item) => {
             const criterion = job.scoringCriteria.find(c => c.criteria === item.criteria);
             const weight = criterion ? criterion.weight : 0;
             const weightedScore = item.score * weight;
@@ -105,6 +134,9 @@ Return JSON:
             name: jsonResponse.name,
             email: jsonResponse.email,
             summary: jsonResponse.summary,
+            matchPercentage,
+            missingSkills,
+            strengths,
             resumeText,
             totalScore,
             scoreBreakdown: detailedBreakdown,

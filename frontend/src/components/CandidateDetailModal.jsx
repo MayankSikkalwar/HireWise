@@ -1,13 +1,14 @@
+
 import React from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail, FiX } from 'react-icons/fi';
 
 const CandidateDetailModal = ({ candidate, onClose }) => {
-  // If no candidate is selected, render nothing.
   if (!candidate) return null;
 
   const normalizedScore = Math.max(0, Math.min(Number(candidate.totalScore) || 0, 100));
+  const matchPercentage = Math.max(0, Math.min(Number(candidate.matchPercentage) || 0, 100));
 
   return (
     <AnimatePresence>
@@ -26,6 +27,7 @@ const CandidateDetailModal = ({ candidate, onClose }) => {
           className="w-full max-w-5xl h-[90vh] flex flex-col rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_24px_90px_rgba(0,0,0,0.55)]"
           onClick={(e) => e.stopPropagation()}
         >
+          {/* HEADER */}
           <div className="p-7 border-b border-white/10 flex justify-between items-start gap-4">
             <div className="min-w-0">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Candidate Profile</p>
@@ -57,12 +59,70 @@ const CandidateDetailModal = ({ candidate, onClose }) => {
             </div>
           </div>
 
-          <div className="p-7 overflow-y-auto flex-1 [scrollbar-width:thin] [scrollbar-color:#64748b_transparent] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-500/50 [&::-webkit-scrollbar-track]:bg-transparent">
+          {/* BODY */}
+          <div className="p-7 overflow-y-auto flex-1">
+            {/* SUMMARY */}
             <div className="mb-8 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
               <h3 className="text-lg font-semibold text-slate-100 mb-3">Candidate Summary</h3>
-              <p className="text-sm leading-relaxed text-slate-300">{candidate.summary || 'No summary available.'}</p>
+              <p className="text-sm leading-relaxed text-slate-300">
+                {candidate.summary || 'No summary available.'}
+              </p>
             </div>
 
+            {/* 🔥 AI INSIGHTS (NEW) */}
+            <div className="mb-10 rounded-2xl border border-white/10 bg-slate-900/40 p-5">
+              <h3 className="text-lg font-semibold text-slate-100 mb-4">AI Insights</h3>
+
+              {/* Match Percentage */}
+              <div className="mb-5">
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-slate-400">Resume–Job Match</span>
+                  <span className="text-violet-300 font-semibold">{matchPercentage}%</span>
+                </div>
+                <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-violet-500 to-blue-500"
+                    style={{ width: `${matchPercentage}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Strengths */}
+              {candidate.strengths?.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-sm text-slate-400 mb-2">Strengths</p>
+                  <div className="flex flex-wrap gap-2">
+                    {candidate.strengths.map((skill, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 text-xs rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Missing Skills */}
+              {candidate.missingSkills?.length > 0 && (
+                <div>
+                  <p className="text-sm text-slate-400 mb-2">Missing Skills</p>
+                  <div className="flex flex-wrap gap-2">
+                    {candidate.missingSkills.map((skill, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 text-xs rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/20"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* SCORE BREAKDOWN */}
             <div>
               <h3 className="text-lg font-semibold text-slate-100 mb-4">Score Breakdown</h3>
               <div className="space-y-3">
@@ -71,20 +131,25 @@ const CandidateDetailModal = ({ candidate, onClose }) => {
                     <div className="flex justify-between items-center gap-4">
                       <p className="font-semibold text-slate-100">{item.criteria}</p>
                       <p className="text-sm text-slate-300">
-                        Criteria Score: <span className="text-white font-bold">{item.score}/10</span>
+                        Criteria Score:{' '}
+                        <span className="text-white font-bold">{item.score}/10</span>
                       </p>
                     </div>
                     <div className="my-3 h-px bg-white/10" />
                     <p className="text-sm text-slate-300">
-                      <span className="font-medium text-slate-200">Justification:</span> {item.justification}
+                      <span className="font-medium text-slate-200">Justification:</span>{' '}
+                      {item.justification}
                     </p>
-                    <p className="mt-3 text-sm font-semibold text-violet-300 text-right">Weighted Score: {item.weightedScore}</p>
+                    <p className="mt-3 text-sm font-semibold text-violet-300 text-right">
+                      Weighted Score: {item.weightedScore}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
+          {/* FOOTER */}
           <div className="p-5 border-t border-white/10 text-right">
             <button
               onClick={onClose}
